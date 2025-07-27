@@ -1,9 +1,14 @@
 {
   "name": "pi-shutdown-server",
   "version": "1.0.0",
+  "description": "Node.js Express server to shutdown Raspberry Pi from a container",
   "main": "shutdown.js",
   "type": "commonjs",
+  "scripts": {
+    "start": "node shutdown.js"
+  },
   "dependencies": {
     "express": "^4.19.2"
-  }
+  },
+  "license": "MIT"
 }

@@ -1,14 +1,13 @@
-FROM node:20-slim
+FROM node:18-alpine
 
-# Install sudo (for shutdown), and clean cache
-RUN apt update && apt install -y sudo && apt clean
-
-# App setup
 WORKDIR /app
+
+# Install dependencies
+COPY package.json ./
+RUN npm install
+
+# Copy app code
 COPY shutdown.js .
 
-# Grant permission to use shutdown (without password)
-RUN echo "node ALL=(ALL) NOPASSWD: /sbin/shutdown" >> /etc/sudoers
-
-# Start app
-CMD ["node", "shutdown.js"]
+EXPOSE 3000
+CMD ["npm", "start"]

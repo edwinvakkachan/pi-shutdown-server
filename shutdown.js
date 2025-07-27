@@ -4,15 +4,20 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const TOKEN = process.env.SHUTDOWN_TOKEN || null;
+
 app.get('/shutdown', (req, res) => {
-  exec('shutdown now', (error, stdout, stderr) => {
+  if (TOKEN && req.query.token !== TOKEN) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  exec('/sbin/shutdown -h now', (error, stdout, stderr) => {
     if (error) {
       console.error(`❌ Error: ${error.message}`);
       return res.status(500).send('Shutdown failed');
     }
     if (stderr) {
       console.error(`⚠️ Stderr: ${stderr}`);
-      return res.status(500).send('Shutdown error');
     }
     console.log('🛑 Shutdown command issued');
     res.send('Shutting down...');
