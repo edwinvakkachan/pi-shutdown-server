@@ -9,7 +9,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /usr/sbin/shutdown:/usr/sbin/shutdown:ro
       - /run/systemd:/run/systemd
       - /run/dbus:/run/dbus
       - /dev:/dev

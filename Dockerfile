@@ -1,17 +1,9 @@
-# Use Debian-based Node.js image
-FROM node:18-slim
+FROM node:18-alpine
 
-# Create app directory
 WORKDIR /app
 
-# Copy source files
-COPY . .
+COPY shutdown.js .
 
-# Install dependencies (if any)
-RUN npm install
+RUN npm init -y && npm install express
 
-# Expose port
-EXPOSE 3000
-
-# Run app
-CMD ["node", "server.js"]
+CMD ["node", "shutdown.js"]
