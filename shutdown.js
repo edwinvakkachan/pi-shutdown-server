@@ -11,7 +11,7 @@ app.get('/shutdown', (req, res) => {
     return res.status(401).send('Unauthorized');
   }
 
-  exec('/sbin/shutdown -h now', (error, stdout, stderr) => {
+  exec('/usr/sbin/shutdown -h now', (error, stdout, stderr) => {
     if (error) {
       console.error(`❌ Error: ${error.message}`);
       return res.status(500).send('Shutdown failed');
