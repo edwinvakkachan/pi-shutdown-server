@@ -7,7 +7,7 @@ services:
     environment:
       - SHUTDOWN_TOKEN=supersecret
     ports:
-      - "3000:3000"
+      - "3099:3000"
     volumes:
       - /run/systemd:/run/systemd
       - /run/dbus:/run/dbus
