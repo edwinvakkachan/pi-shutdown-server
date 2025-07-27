@@ -3,25 +3,39 @@ const { exec } = require('child_process');
 
 const app = express();
 const PORT = 3000;
-const TOKEN = process.env.SHUTDOWN_TOKEN || 'supersecret';
+const SHUTDOWN_TOKEN = process.env.SHUTDOWN_TOKEN || 'supersecret';
 
-app.get('/shutdown', (req, res) => {
-  const token = req.query.token;
-  if (token !== TOKEN) {
-    return res.status(403).send('Forbidden: Invalid token');
+app.use(express.json());
+
+// Manual shutdown via HTTP
+app.post('/shutdown', (req, res) => {
+  const token = req.body.token;
+  if (token !== SHUTDOWN_TOKEN) {
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  shutdown();
+  res.json({ message: 'Shutdown command sent' });
+});
+
+// Auto shutdown after 1 minute
+setTimeout(() => {
+  console.log('🕒 1 minute passed. Triggering auto-shutdown...');
+  shutdown();
+}, 60 * 1000); // 60 seconds
+
+function shutdown() {
+  console.log('🔌 Shutting down...');
   exec('dbus-send --system --print-reply --dest=org.freedesktop.login1 ' +
        '/org/freedesktop/login1 "org.freedesktop.login1.Manager.PowerOff" boolean:true',
     (error, stdout, stderr) => {
       if (error) {
-        console.error("❌ Error:", error.message);
-        return res.status(500).send('Shutdown failed: ' + error.message);
+        console.error('❌ Shutdown failed:', error.message);
+        return;
       }
-      console.log("✅ Shutdown initiated.");
-      res.send('Shutdown command sent.');
+      console.log('✅ Shutdown command executed');
     });
-});
+}
 
 app.listen(PORT, () => {
   console.log(`🚀 Shutdown service running on port ${PORT}`);
