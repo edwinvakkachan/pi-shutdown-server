@@ -5,10 +5,13 @@ services:
     build: .
     container_name: pi-shutdown
     environment:
-      - SHUTDOWN_TOKEN=supersecret   # Optional token
+      - SHUTDOWN_TOKEN=supersecret  # Optional token
     ports:
       - "3000:3000"
     volumes:
-      - /usr/sbin/shutdown:/usr/sbin/shutdown:ro   # Mount host shutdown command
-    privileged: true                       # Required to run shutdown
+      - /usr/sbin/shutdown:/usr/sbin/shutdown:ro
+      - /run/systemd:/run/systemd
+      - /run/dbus:/run/dbus
+      - /dev:/dev
+    privileged: true  # Required to run shutdown
     restart: no
