@@ -3,7 +3,7 @@ version: '3.8'
 services:
   shutdown-service:
     build: .
-    container_name: pi-shutdown
+    container_name: pishutdown
     environment:
       - SHUTDOWN_TOKEN=supersecret
     ports:
