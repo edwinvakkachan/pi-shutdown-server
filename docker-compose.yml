@@ -9,6 +9,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /sbin/shutdown:/sbin/shutdown:ro   # Mount host shutdown command
+      - /usr/sbin/shutdown:/usr/sbin/shutdown:ro   # Mount host shutdown command
     privileged: true                       # Required to run shutdown
     restart: no
