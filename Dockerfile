@@ -1,17 +1,17 @@
-FROM node:18-alpine
+# Use Debian-based Node.js image
+FROM node:18-slim
 
-# Install sudo for passwordless shutdown
-RUN apk add --no-cache sudo
-
+# Create app directory
 WORKDIR /app
-
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install
 
 # Copy source files
 COPY . .
 
+# Install dependencies (if any)
+RUN npm install
+
+# Expose port
 EXPOSE 3000
 
-CMD ["node", "shutdown.js"]
+# Run app
+CMD ["node", "server.js"]
