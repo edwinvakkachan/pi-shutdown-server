@@ -1,0 +1,9 @@
+{
+  "name": "pi-shutdown-server",
+  "version": "1.0.0",
+  "main": "shutdown.js",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
